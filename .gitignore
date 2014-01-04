@@ -1,0 +1,8 @@
+.Python
+.tmp/
+bin/
+include/
+lib/
+node_modules/
+app/bower_components/
+app/scripts/services/configuration.coffee

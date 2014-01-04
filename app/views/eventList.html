@@ -1,0 +1,27 @@
+<div class="hero-unit">
+  <h1>Paylogic Store</h1>
+  <a href="/#/profile/" ng-hide="noProfile()">Profile</a>
+  <a href="#/eTickets/">eTickets</a>
+  <a href="/#/register/">Register</a>
+  <div ng-include="'views/basket.html'"></div>
+  <h2>Events</h2>
+  Search: <input type="text" ng-model="eventName" />
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Genres</th>
+        <th>City</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="event in data.events | filter:eventName">
+        <td><a ng-href="#/event/?eventUri={{event.uri}}">{{event.title.en}}</div></td>
+        <td><span ng-repeat="genre in event.genres">{{genre}}</span></td>
+        <td>{{getCity(event.location)}}</td>
+        <td>{{getLocation(event.location)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

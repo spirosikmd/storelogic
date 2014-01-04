@@ -1,0 +1,44 @@
+<div class="hero-unit">
+  <h1>Paylogic Store</h1>
+  <p>It is time to register with Paylogic!</p>
+  <form role="form">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" placeholder="first name?" ng-model="user.first_name">
+    </div>
+    <div class="form-group">
+      <label for="firstName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" placeholder="last name?" ng-model="user.last_name">
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" id="email" placeholder="email?" ng-model="user.email">
+    </div>
+    <div class="form-horizontal">
+      <label for="date-of-birth">Date of Birth</label>
+      <p>
+        <input type="text" id="date-of-birth" datepicker-popup="yyyy/MM/dd" ng-model="user.date_of_birth" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+      </p>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="gender" id="maleGender" value="male" ng-model="user.gender">
+        Male
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="gender" id="femaleGender" value="female" ng-model="user.gender">
+        Female
+      </label>
+    </div>
+    <div class="country">
+      <select ng-model="user.country" ng-options="country for country in countries">
+        <option value="">--</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="create(user)">Register</button>
+    <button type="submit" class="btn btn-default" ng-click="reset()">Reset</button>
+  </form>
+  <a href="/">Back to Events</a>
+</div>

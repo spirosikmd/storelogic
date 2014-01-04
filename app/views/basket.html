@@ -1,0 +1,26 @@
+<div id="basket", ng-controller="BasketCtrl">
+  <h2>Basket</h2>
+  <div>State: {{basket.state}}</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="ticket in tickets">
+        <td>{{ticket.name.en}}</td>
+        <td>{{ticket.price.amount | currency:currencies[total.currency]}} {{ticket.price.currency}}</td>
+        <td><button class="btn" ng-click="cancelTicket(ticket.uri)" ng-disabled="isCompleted() || isCanceled()">Cancel</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    Total: {{total.amount | currency:currencies[total.currency]}} {{total.currency}}
+  </div>
+  <button type="button" class="btn btn-success" ng-click="confirmBasket()" ng-hide="isCompleted()" ng-disabled="isCanceled() || noBasket() || areTickets()">Confirm</button>
+  <button type="button" class="btn btn-danger" ng-click="cancelBasket()" ng-hide="isCompleted()" ng-disabled="isCanceled() || noBasket()">Cancel</button>
+  <a class="btn btn-primary" ng-show="isCompleted()" ng-href="{{etickets}}">Download eTickets!</a>
+  <button type="button" class="btn btn-info" ng-click="resetBasket()" ng-show="isCompleted() || isCanceled()">Reset Basket</button>
+</div>
