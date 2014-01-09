@@ -1,29 +1,39 @@
 'use strict'
 
-angular.module('paylogicStoreApp.controllers', [
+paylogicStoreAppControllers = angular.module 'paylogicStoreApp.controllers', [
   'paylogicStoreApp.services',
   'ui.bootstrap'
-])
-  .controller 'EventListCtrl', ($scope, Event, Location, Cache) ->
+]
 
-    $scope.data = {}
-    $scope.data.events = Event.get()
-    $scope.data.locations = Location.get()
-    $scope.profileUri = Cache.get('profileUri')
+class EventListCtrl
+  @$inject: ['$scope', 'Event', 'Location', 'Cache']
 
-    $scope.getCity = (locationUri) ->
-      for location in $scope.data.locations
-        if location.uri is locationUri
-          city = location.city.en
-          break
-      city
+  constructor: (@scope, @Event, @Location, @Cache) ->
+    @scope.data = {}
+    @scope.data.events = @Event.get()
+    @scope.data.locations = @Location.get()
+    @scope.data.profileUri = @Cache.get('profileUri')
 
-    $scope.getLocation = (locationUri) ->
-      for location in $scope.data.locations
-        if location.uri is locationUri
-          name = location.name.en
-          break
-      name
+    angular.extend @scope,
+      getCity: @getCity
+      getLocation: @getLocation
+      noProfile: @noProfile
 
-    $scope.noProfile = ->
-      not $scope.profileUri
+  getCity: (locationUri) =>
+    for location in @scope.data.locations
+      if location.uri is locationUri
+        city = location.city.en
+        break
+    city
+
+  getLocation: (locationUri) =>
+    for location in @scope.data.locations
+      if location.uri is locationUri
+        name = location.name.en
+        break
+    name
+
+  noProfile: =>
+    not @scope.data.profileUri
+
+paylogicStoreAppControllers.controller 'EventListCtrl', EventListCtrl

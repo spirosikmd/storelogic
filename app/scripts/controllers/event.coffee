@@ -1,65 +1,85 @@
 'use strict'
 
-angular.module('paylogicStoreApp.controllers')
-  .controller 'EventCtrl', ($scope, $routeParams, currencies, Cache, Event, Product, Basket, Ticket, BasketData) ->
+paylogicStoreAppControllers = angular.module('paylogicStoreApp.controllers')
 
-    $scope.currencies = currencies
-    $scope.products = []
-    $scope.units = {}
-    $scope.basket = BasketData.getBasket()
-    $scope.profileUri = Cache.get('profileUri')
+class EventCtrl
+  @$inject = ["$scope", "$routeParams", "currencies", "Cache", "Event", "Product", "Basket", "Ticket", "BasketData"]
 
-    Event.get {uri__eq: $routeParams.eventUri}, (resources) ->
-      $scope.event = resources[0]
+  constructor: (@scope, @routeParams, @currencies, @Cache, @Event, @Product, @Basket, @Ticket, @BasketData) ->
+    @scope.data = {}
+    @scope.data.empty = {}
+    @scope.data.currencies = @currencies
+    @scope.data.products = []
+    @scope.data.units = {}
+    @scope.data.basket = @BasketData.getBasket()
+    @scope.data.profileUri = @Cache.get('profileUri')
 
-    Product.get {event__eq: $routeParams.eventUri}, (resources) ->
+    @Event.get {uri__eq: @routeParams.eventUri}, (resources) =>
+      @scope.data.event = resources[0]
+
+    @Product.get {event__eq: @routeParams.eventUri}, (resources) =>
       for resource in resources
-        $scope.products.push resource
+        @scope.data.products.push resource
 
-    $scope.$on 'basketChanged', (event, basket) ->
-      $scope.basket = basket
+    @scope.$on 'basketChanged', (event, basket) =>
+      @scope.data.basket = basket
 
-    $scope.$on 'ticketCanceled', ->
-      refreshAvailability()
+    @scope.$on 'ticketCanceled', =>
+      @refreshAvailability()
 
-    refreshAvailability = ->
-      Product.get {event__eq: $routeParams.eventUri}, (resources) ->
-        $scope.products = []
-        for resource in resources
-          $scope.products.push resource
+    angular.extend @scope,
+      refreshAvailability: @refreshAvailability
+      add: @add
+      isCompleted: @isCompleted
+      isCanceled: @isCanceled
+      noProfile: @noProfile
 
-    buy = (productUri, units) ->
-      data = []
-      for _ in [1..units]
-        data.push {
-          "basket": $scope.basket.uri,
-          "product": productUri
-        }
-      if data.length > 0
-        if data.length == 1
-          Ticket.buySingle data[0], (resource) ->
-            BasketData.addTicket resource
-            refreshAvailability()
-        else
-          Ticket.buyMultiple data, (resources) ->
-            for resource in resources
-              BasketData.addTicket resource
-            refreshAvailability()
+  refreshAvailability: =>
+    @Product.get {event__eq: @routeParams.eventUri}, (resources) =>
+      @scope.data.products = []
+      for resource in resources
+        @scope.data.products.push resource
 
-    $scope.buy = (productUri, units) ->
+  _add: =>
+    data = []
+    for productUri, units of @scope.data.units
       if units > 0
-        if BasketData.isEmpty()
-          Basket.create (resource) ->
-            BasketData.setBasket resource
-            buy productUri, units
-        else
-          buy productUri, units
+        for _ in [1..units]
+          data.push {
+            "basket": @scope.data.basket.uri,
+            "product": productUri
+          }
+    @scope.data.units = angular.copy @scope.data.empty
+    if data.length > 0
+      if data.length == 1
+        @Ticket.buySingle data[0], (resource) =>
+          @BasketData.addTicket resource
+          @refreshAvailability()
+      else
+        @Ticket.buyMultiple data, (resources) =>
+          for resource in resources
+            @BasketData.addTicket resource
+          @refreshAvailability()
 
-    $scope.isCompleted = ->
-      $scope.basket?.state is 'completed'
+  add: =>
+    if @scope.data.units
+      if @BasketData.isEmpty()
+        data = {
+          "profile": @Cache.get('profileUri')
+        }
+        @Basket.create data, (resource) =>
+          @BasketData.setBasket resource
+          @_add()
+      else
+        @_add()
 
-    $scope.isCanceled = ->
-      $scope.basket?.state is 'canceled'
+  isCompleted = =>
+    @scope.data.basket?.state is 'completed'
 
-    $scope.noProfile = ->
-      not $scope.profileUri
+  isCanceled = =>
+    @scope.data.basket?.state is 'canceled'
+
+  noProfile = =>
+    not @scope.data.profileUri
+
+paylogicStoreAppControllers.controller 'EventCtrl', EventCtrl

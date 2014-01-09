@@ -1,27 +1,32 @@
 'use strict'
 
-angular.module('paylogicStoreApp.controllers')
-  .controller 'RegisterCtrl', ($scope, Profile, Cache) ->
+paylogicStoreAppControllers = angular.module('paylogicStoreApp.controllers')
 
-    $scope.master = {}
+class RegisterCtrl
+  @$inject = ["$scope", "Profile", "Cache"]
 
-    $scope.create = (user) ->
-      user.gender = switch
-        when user.gender is "male" then "1"
-        when user.gender is "female" then "2"
-      Profile.create user, (response) ->
-        Cache.put 'profileUri', response.uri
-        $scope.reset()
+  constructor: (@scope, @Profile, @Cache) ->
+    @scope.data = {}
+    @scope.data.empty = {}
+    @scope.data.formats = ["dd-MMMM-yyyy", "yyyy/MM/dd", "shortDate"]
+    @scope.data.format = @scope.data.formats[0]
+    @scope.data.countries = ["NL", "US"]
 
-    $scope.reset = ->
-      $scope.user = angular.copy $scope.master
+    angular.extend @scope,
+      create: @create
+      reset: @reset
 
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
-    $scope.format = $scope.formats[0];
+    @scope.reset()
 
-    $scope.countries = [
-      "NL",
-      "US"
-    ]
+  create: (user) =>
+    user.gender = switch
+      when user.gender is "male" then "1"
+      when user.gender is "female" then "2"
+    @Profile.create user, (response) =>
+      @Cache.put 'profileUri', response.uri
+      @scope.reset()
 
-    $scope.reset()
+  reset: =>
+    @scope.data.user = angular.copy @scope.data.empty
+
+paylogicStoreAppControllers.controller 'RegisterCtrl', RegisterCtrl

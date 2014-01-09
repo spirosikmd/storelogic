@@ -1,12 +1,14 @@
 <div class="hero-unit">
   <h1>Paylogic Store</h1>
-  <a href="#/profile/" ng-hide="noProfile()">Profile</a>
-  <a href="#/eTickets/">eTickets</a>
+  <div id="nav">
+    <a href="#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
+    <a href="/" class="btn">Event List</a>
+  </div>
   <div ng-include="'views/basket.html'"></div>
   <div id="event">
-    <h2>{{event.title.en}}</h2>
-    <div>Event starts on {{event.event_start | date:"yyyy/MM/dd"}} at {{event.event_start | date:"hh:mm"}}</div>
-    <div>Event ends on {{event.event_end | date:"yyyy/MM/dd"}} at {{event.event_end | date:"hh:mm"}}</div>
+    <h2>{{data.event.title.en}}</h2>
+    <div>Event starts on {{data.event.event_start | date:"yyyy/MM/dd"}} at {{data.event.event_start | date:"hh:mm"}}</div>
+    <div>Event ends on {{data.event.event_end | date:"yyyy/MM/dd"}} at {{data.event.event_end | date:"hh:mm"}}</div>
     <div id="products">
       <h3>Products</h3>
       <table class="table">
@@ -19,19 +21,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="product in products">
+          <tr ng-repeat="product in data.products">
             <td>
               <div>{{product.name.en}}</div>
               <div class="subtitle">{{product.subtitle.en}}</div>
             </td>
             <td>{{product.price.amount | currency:currencies[product.price.currency]}} {{product.price.currency}}</td>
             <td>{{product.availability}}</td>
-            <td><input type="number" min="0" max="{{product.constraints.max_quantity}}" ng-model="units[product.uri]" /></td>
-            <td><button class="btn" ng-click="buy(product.uri, units[product.uri])" ng-disabled="isCompleted() || isCanceled()">Buy</button></td>
+            <td><input type="number" min="0" max="{{product.constraints.max_quantity}}" ng-model="data.units[product.uri]" /></td>
           </tr>
         </tbody>
       </table>
+      <button class="btn" ng-click="add()" ng-disabled="isCompleted() || isCanceled()">Add To Basket</button></td>
     </div>
   </div>
-  <a href="/">Back to Event List</a>
 </div>

@@ -24,3 +24,7 @@ body {
 .subtitle {
     font-size: 12px;
 }
+
+#nav {
+    padding-top: 15px;
+}

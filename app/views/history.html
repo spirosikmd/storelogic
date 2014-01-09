@@ -1,0 +1,28 @@
+<div class="hero-unit">
+  <h1>Paylogic Store</h1>
+  <div id="nav">
+    <a href="#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
+    <a href="/" class="btn">Event List</a>
+  </div>
+  <div id="history">
+    <h2>History</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Basket</th>
+          <th>State</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="basket in data.baskets">
+          <td>{{basket.name}}</td>
+          <td>{{basket.state}}</td>
+          <td>{{basket.total.amount | currency:currencies[basket.total.currency]}} {{basket.total.currency}}</td>
+          <td><a class="btn btn-primary" ng-href="{{basket.eticketsLink}}" ng-show="linkExists(basket.eticketsLink)">Download eTickets!</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div>How can we get the events?</div>
+  </div>
+</div>

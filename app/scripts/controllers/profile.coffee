@@ -1,31 +1,37 @@
 'use strict'
 
-angular.module('paylogicStoreApp.controllers')
-  .controller 'ProfileCtrl', ($scope, Profile, Cache) ->
+paylogicStoreAppControllers = angular.module('paylogicStoreApp.controllers')
 
-    $scope.profileUri = Cache.get 'profileUri'
-    Profile.get {uri__eq: $scope.profileUri}, (resource) ->
-      $scope.profile = resource[0]
-      $scope.profile.gender = switch
-        when $scope.profile.gender is 1 then "male"
-        when $scope.profile.gender is 2 then "female"
+class ProfileCtrl
+  @$inject = ["$scope", "Profile", "Cache"]
 
-    $scope.update = (profile) ->
-      profile.gender = switch
-        when profile.gender is "male" then 1
-        when profile.gender is "female" then 2
-      uid = $scope.profileUri.split('/')[4]
-      revision = $scope.profileUri.split('/')[6]
-      Profile.update {profileUid:uid, profileRevision:revision}, profile, (response) ->
-        Cache.put('profileUri', response.uri);
+  constructor: (@scope, @Profile, @Cache) ->
+    @scope.data = {}
+    @scope.data.profileUri = @Cache.get 'profileUri'
+    @scope.data.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate']
+    @scope.data.format = @scope.data.formats[0]
+    @scope.data.countries = ["NL", "US"]
 
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
-    $scope.format = $scope.formats[0];
+    @Profile.get {uri__eq: @scope.data.profileUri}, (resource) =>
+      @scope.data.profile = resource[0]
+      @scope.data.profile.gender = switch
+        when @scope.data.profile.gender is 1 then "male"
+        when @scope.data.profile.gender is 2 then "female"
 
-    $scope.countries = [
-      "NL",
-      "US"
-    ]
+    angular.extend @scope,
+      update: @update
+      noProfile: @noProfile
 
-    $scope.noProfile = ->
-      not Cache.get 'profileUri'
+  update: (profile) =>
+    profile.gender = switch
+      when profile.gender is "male" then 1
+      when profile.gender is "female" then 2
+    uid = @scope.data.profileUri.split('/')[4]
+    revision = @scope.data.profileUri.split('/')[6]
+    @Profile.update {profileUid:uid, profileRevision:revision}, profile, (response) =>
+      @Cache.put 'profileUri', response.uri
+
+  noProfile = =>
+    not @Cache.get 'profileUri'
+
+paylogicStoreAppControllers.controller 'ProfileCtrl', ProfileCtrl

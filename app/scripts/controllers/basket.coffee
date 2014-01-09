@@ -1,65 +1,73 @@
 'use strict'
 
-angular.module('paylogicStoreApp.controllers')
-  .controller 'BasketCtrl', ($rootScope, $scope, currencies, Basket, Ticket, Product, Cache, BasketData) ->
+paylogicStoreAppControllers = angular.module('paylogicStoreApp.controllers')
 
-    $scope.currencies = currencies
-    $scope.tickets = BasketData.getTickets()
-    $scope.etickets = Cache.get 'eTickets'
-    $scope.basket = BasketData.getBasket()
-    $scope.total = BasketData.getTotal()
+class BasketCtrl
+  @$inject = ["$rootScope", "$scope", "currencies", "Basket", "Ticket", "Product", "Cache", "BasketData"]
 
-    $scope.$on 'basketChanged', (event, basket) ->
-      $scope.basket = basket
+  constructor: (@rootScope, @scope, @currencies, @Basket, @Ticket, @Product, @Cache, @BasketData) ->
+    @scope.data = {}
+    @scope.data.currencies = @currencies
+    @scope.data.tickets = @BasketData.getTickets()
+    @scope.data.basket = @BasketData.getBasket()
+    @scope.data.total = @BasketData.getTotal()
 
-    $scope.$on 'ticketsRefreshed', (event, tickets) ->
-      $scope.tickets = tickets
+    @scope.$on 'basketChanged', (event, basket) =>
+      @scope.data.basket = basket
 
-    $scope.$on 'ticketAdded', (event, tickets) ->
-      $scope.tickets = tickets
+    @scope.$on 'ticketsRefreshed', (event, tickets) =>
+      @scope.data.tickets = tickets
 
-    $scope.$on 'ticketRemoved', (event, tickets) ->
-      $scope.tickets = tickets
+    @scope.$on 'ticketAdded', (event, tickets) =>
+      @scope.data.tickets = tickets
 
-    $scope.$on 'totalChanged', (event, total) ->
-      $scope.total = total
+    @scope.$on 'ticketRemoved', (event, tickets) =>
+      @scope.data.tickets = tickets
 
-    $scope.confirmBasket = ->
-      uid = $scope.basket.uri.split('/')[4]
-      Basket.confirm {basketUid:uid}, (resource) ->
-        $scope.basket.state = resource.state
-        $scope.etickets = resource.etickets
-        eticketsList = Cache.get('eTickets') ? []
-        data = {
-          'profile': Cache.get('profileUri'),
-          'eTicketLink': resource.etickets
-        }
-        eticketsList.push data
-        Cache.put 'eTickets', eticketsList
+    @scope.$on 'totalChanged', (event, total) =>
+      @scope.data.total = total
 
-    $scope.cancelBasket = ->
-      uid = $scope.basket.uri.split('/')[4]
-      Basket.cancel {basketUid:uid}, (resource) ->
-        $scope.basket.state = resource.state
+    angular.extend @scope,
+      confirmBasket: @confirmBasket
+      cancelBasket: @cancelBasket
+      resetBasket: @resetBasket
+      cancelTicket: @cancelTicket
+      areTickets: @areTickets
+      isCompleted: @isCompleted
+      isCanceled: @isCanceled
+      noBasket: @noBasket
 
-    $scope.resetBasket = ->
-      Cache.remove 'basketUri'
-      BasketData.resetBasket()
+  confirmBasket: =>
+    uid = @scope.data.basket.uri.split('/')[4]
+    @Basket.confirm {basketUid:uid}, (resource) =>
+      @scope.data.basket.state = resource.state
+      @scope.data.etickets = resource.etickets
 
-    $scope.cancelTicket = (ticketUri) ->
-      uid = ticketUri.split('/')[4]
-      Ticket.cancel {ticketUid:uid}, ->
-        BasketData.removeTicket ticketUri
-        $rootScope.$broadcast 'ticketCanceled', ticketUri
+  cancelBasket: =>
+    uid = @scope.data.basket.uri.split('/')[4]
+    @Basket.cancel {basketUid:uid}, (resource) =>
+      @scope.data.basket.state = resource.state
 
-    $scope.areTickets = ->
-      $scope.tickets.length <= 0
+  resetBasket: =>
+    @Cache.remove 'basketUri'
+    @BasketData.resetBasket()
 
-    $scope.isCompleted = ->
-      $scope.basket?.state is 'completed'
+  cancelTicket: (ticketUri) =>
+    uid = ticketUri.split('/')[4]
+    @Ticket.cancel {ticketUid:uid}, =>
+      @BasketData.removeTicket ticketUri
+      @rootScope.$broadcast 'ticketCanceled', ticketUri
 
-    $scope.isCanceled = ->
-      $scope.basket?.state is 'canceled'
+  areTickets: =>
+    @scope.data.tickets.length <= 0
 
-    $scope.noBasket = ->
-      BasketData.isEmpty()
+  isCompleted: =>
+    @scope.data.basket?.state is 'completed'
+
+  isCanceled: =>
+    @scope.data.basket?.state is 'canceled'
+
+  noBasket: =>
+    @BasketData.isEmpty()
+
+paylogicStoreAppControllers.controller 'BasketCtrl', BasketCtrl

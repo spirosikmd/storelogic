@@ -1,8 +1,9 @@
 <div class="hero-unit">
   <h1>Paylogic Store</h1>
-  <a href="/#/profile/" ng-hide="noProfile()">Profile</a>
-  <a href="#/eTickets/">eTickets</a>
-  <a href="/#/register/">Register</a>
+  <div id="nav">
+    <a href="/#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
+    <a href="/#/register/" class="btn">Register</a>
+  </div>
   <div ng-include="'views/basket.html'"></div>
   <h2>Events</h2>
   Search: <input type="text" ng-model="eventName" />

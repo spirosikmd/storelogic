@@ -21,8 +21,8 @@ angular.module('paylogicStoreApp', [
       .when '/register/',
         templateUrl: 'views/register.html'
         controller: 'RegisterCtrl'
-      .when '/eTickets/',
-        templateUrl: 'views/eTickets.html'
-        controller: 'EticketsCtrl'
+      .when '/history/',
+        templateUrl: 'views/history.html'
+        controller: 'HistoryCtrl'
       .otherwise
         redirectTo: '/'

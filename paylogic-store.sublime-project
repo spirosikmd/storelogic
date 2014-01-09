@@ -3,7 +3,9 @@
 	[
 		{
 			"path": "/Users/spyros/projects/paylogic-store",
-      "folder_exclude_patterns": ["include", "lib", "node_modules", "bin"]
+            "folder_exclude_patterns": [
+                "include", "lib", "node_modules", "bin"
+            ]
 		}
 	]
 }
