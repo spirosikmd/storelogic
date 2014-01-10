@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp.services')
+angular.module('paylogicStoreApp')
   .service 'BasketData', ($rootScope, Cache, Basket, Ticket, Product) ->
 
     basket = {}

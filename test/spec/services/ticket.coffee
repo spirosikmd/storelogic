@@ -3,7 +3,7 @@
 describe 'Service: Ticket', () ->
 
   # load the service's module
-  beforeEach module 'PaylogicstoreApp'
+  beforeEach module 'paylogicStoreApp'
 
   # instantiate service
   Ticket = {}

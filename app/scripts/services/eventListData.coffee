@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp.services')
+angular.module('paylogicStoreApp')
   .service 'EventListData', (Event) ->
 
     events = Event.get()

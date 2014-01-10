@@ -15,5 +15,5 @@ describe 'Controller: RegisterCtrl', () ->
       $scope: scope
     }
 
-  it 'should attach a list of awesomeThings to the scope', () ->
-    expect(scope.awesomeThings.length).toBe 3
+  it 'should attach a list of date format to the scope', () ->
+    expect(scope.data.formats.length).toBe 3

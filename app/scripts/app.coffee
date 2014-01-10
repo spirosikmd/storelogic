@@ -4,7 +4,8 @@ angular.module('paylogicStoreApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'paylogicStoreApp.controllers',
+  'ngResource',
+  'ui.bootstrap',
   'jmdobry.angular-cache'
 ])
   .config ($routeProvider) ->

@@ -1,14 +1,11 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module 'paylogicStoreApp.controllers', [
-  'paylogicStoreApp.services',
-  'ui.bootstrap'
-]
+paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
 
 paylogicStoreAppControllers.filter 'startFrom', ->
   (input, start) ->
     start = +start
-    input.slice(start);
+    input.slice(start)
 
 class EventListCtrl
   @$inject: ['$scope', 'Event', 'Location', 'Cache', 'EventListData']
@@ -18,13 +15,8 @@ class EventListCtrl
     @scope.data.events = @EventListData.getEvents()
     @scope.data.locations = @Location.get()
     @scope.data.profileUri = @Cache.get('profileUri')
-    @scope.data.currentPage = 0;
-    @scope.data.pageSize = 5;
-
-    # @scope.$on 'eventsRefreshed', (events) =>
-    #   @scope.data.events = []
-    #   console.log events
-    #   @scope.data.events = events
+    @scope.data.currentPage = 0
+    @scope.data.pageSize = 5
 
     angular.extend @scope,
       getCity: @getCity

@@ -1,6 +1,6 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module('paylogicStoreApp.controllers')
+paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
 
 class BasketCtrl
   @$inject = ["$rootScope", "$scope", "currencies", "Basket", "Ticket", "Product", "Cache", "BasketData"]

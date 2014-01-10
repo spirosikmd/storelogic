@@ -1,19 +1,33 @@
 'use strict'
 
-describe 'Controller: MainCtrl', () ->
+describe 'Controller: EventListCtrl', () ->
 
   # load the controller's module
   beforeEach module 'paylogicStoreApp'
 
-  MainCtrl = {}
+  EventListCtrl = {}
   scope = {}
+  eventListData = {}
+  $q = {}
+
+  createController = ->
+    EventListCtrl 'EventListCtrl',
+      $scope: scope
+      api: eventListData
 
   # Initialize the controller and a mock scope
-  beforeEach inject ($controller, $rootScope) ->
+  beforeEach inject ($controller, $rootScope, _$q_, EventListData) ->
     scope = $rootScope.$new()
-    MainCtrl = $controller 'MainCtrl', {
-      $scope: scope
-    }
+    EventListCtrl = $controller
+    $q = _$q_
 
-  it 'should attach a list of awesomeThings to the scope', () ->
-    expect(scope.awesomeThings.length).toBe 3
+  beforeEach ->
+    eventListData.getEvents = jasmine.createSpy('events')
+    getEventsDefer = $q.defer()
+    getEventsDefer.resolve()
+    eventListData.getEvents.andReturn(getEventsDefer.promise)
+
+  it 'should call eventListData.getEvents', () ->
+    createController()
+    scope.$digest()
+    expect(eventListData.getEvents()).toHaveBeenCalled()

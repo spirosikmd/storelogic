@@ -1,6 +1,6 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module('paylogicStoreApp.controllers')
+paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
 
 class RegisterCtrl
   @$inject = ["$scope", "Profile", "Cache"]

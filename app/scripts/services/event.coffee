@@ -1,8 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp.services', [
-  'ngResource'
-])
+angular.module('paylogicStoreApp')
   .factory 'Event', ($resource, apiToken, baseUrl) ->
     $resource baseUrl + 'events', {}, {
       get: {

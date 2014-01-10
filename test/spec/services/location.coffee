@@ -3,7 +3,7 @@
 describe 'Service: Location', () ->
 
   # load the service's module
-  beforeEach module 'PaylogicstoreApp'
+  beforeEach module 'paylogicStoreApp'
 
   # instantiate service
   Location = {}

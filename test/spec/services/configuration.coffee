@@ -1,14 +1,14 @@
 'use strict'
 
-describe 'Service: Credentials', () ->
+describe 'Service: apiToken', () ->
 
   # load the service's module
-  beforeEach module 'PaylogicstoreApp'
+  beforeEach module 'paylogicStoreApp'
 
   # instantiate service
-  Credentials = {}
-  beforeEach inject (_Credentials_) ->
-    Credentials = _Credentials_
+  apiToken = {}
+  beforeEach inject (_apiToken_) ->
+    apiToken = _apiToken_
 
   it 'should do something', () ->
-    expect(!!Credentials).toBe true
+    expect(!!apiToken).toBe true

@@ -1,14 +1,14 @@
 'use strict'
 
-describe 'Service: Ticketlist', () ->
+describe 'Service: BasketData', () ->
 
   # load the service's module
-  beforeEach module 'PaylogicstoreApp'
+  beforeEach module 'paylogicStoreApp'
 
   # instantiate service
-  Ticketlist = {}
-  beforeEach inject (_Ticketlist_) ->
-    Ticketlist = _Ticketlist_
+  BasketData = {}
+  beforeEach inject (_BasketData_) ->
+    BasketData = _BasketData_
 
   it 'should do something', () ->
-    expect(!!Ticketlist).toBe true
+    expect(!!BasketData).toBe true

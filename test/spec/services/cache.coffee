@@ -3,7 +3,7 @@
 describe 'Service: Cache', () ->
 
   # load the service's module
-  beforeEach module 'PaylogicstoreApp'
+  beforeEach module 'paylogicStoreApp'
 
   # instantiate service
   Cache = {}

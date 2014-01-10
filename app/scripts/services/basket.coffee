@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp.services')
+angular.module('paylogicStoreApp')
   .factory 'Basket', ($resource, apiToken, baseUrl) ->
     $resource baseUrl + 'baskets/:basketUid', {basketUid:"@basketUid"}, {
       get: {
