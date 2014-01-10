@@ -5,28 +5,36 @@
     <a href="/#/register/" class="btn">Register</a>
   </div>
   <div ng-include="'views/basket.html'"></div>
-  <h2>Events</h2>
-  Search: <input type="text" ng-model="data.eventName" ng-trim ng-change="filter()" />
-  <!-- <button class="btn" ng-click="filter()">Search</button> -->
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Genres</th>
-        <th>City</th>
-        <th>Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="event in data.events | startFrom:data.currentPage*data.pageSize | limitTo:data.pageSize">
-        <td><a ng-href="#/event/?eventUri={{event.uri}}">{{event.title.en}}</div></td>
-        <td><span ng-repeat="genre in event.genres">{{genre}}</span></td>
-        <td>{{getCity(event.location)}}</td>
-        <td>{{getLocation(event.location)}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <button class="btn" ng-disabled="firstPage()" ng-click="decreaseCurrentPage()">Previous</button>
-  {{data.currentPage + 1}}/{{numberOfPages()}}
-  <button class="btn" ng-disabled="lastPage()" ng-click="increaseCurrentPage()">Next</button>
+  <div id="events">
+    <div id="title">
+      <h2>Events</h2>
+    </div>
+    <div id="data">
+      <button class="btn" ng-click="refreshEvents()">Refresh</button>
+      Search: <input type="text" ng-model="data.eventName" ng-trim ng-change="filter()" />
+      <table class="table" ng-show="areEvents()">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Genres</th>
+            <th>City</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="event in data.events | startFrom:data.currentPage*data.pageSize | limitTo:data.pageSize">
+            <td><a ng-href="#/event/?eventUri={{event.uri}}">{{event.title.en}}</div></td>
+            <td><span ng-repeat="genre in event.genres">{{genre}}</span></td>
+            <td>{{getCity(event.location)}}</td>
+            <td>{{getLocation(event.location)}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="pagination" ng-show="areEvents()">
+      <button class="btn" ng-disabled="firstPage()" ng-click="decreaseCurrentPage()">Previous</button>
+      {{data.currentPage + 1}}/{{numberOfPages()}}
+      <button class="btn" ng-disabled="lastPage()" ng-click="increaseCurrentPage()">Next</button>
+    </div>
+  </div>
 </div>

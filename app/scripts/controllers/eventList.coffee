@@ -11,15 +11,20 @@ paylogicStoreAppControllers.filter 'startFrom', ->
     input.slice(start);
 
 class EventListCtrl
-  @$inject: ['$scope', 'Event', 'Location', 'Cache']
+  @$inject: ['$scope', 'Event', 'Location', 'Cache', 'EventListData']
 
-  constructor: (@scope, @Event, @Location, @Cache) ->
+  constructor: (@scope, @Event, @Location, @Cache, @EventListData) ->
     @scope.data = {}
-    @scope.data.events = @Event.get()
+    @scope.data.events = @EventListData.getEvents()
     @scope.data.locations = @Location.get()
     @scope.data.profileUri = @Cache.get('profileUri')
     @scope.data.currentPage = 0;
     @scope.data.pageSize = 5;
+
+    # @scope.$on 'eventsRefreshed', (events) =>
+    #   @scope.data.events = []
+    #   console.log events
+    #   @scope.data.events = events
 
     angular.extend @scope,
       getCity: @getCity
@@ -31,6 +36,8 @@ class EventListCtrl
       firstPage: @firstPage
       lastPage: @lastPage
       numberOfPages: @numberOfPages
+      areEvents: @areEvents
+      refreshEvents: @refreshEvents
 
   getCity: (locationUri) =>
     for location in @scope.data.locations
@@ -72,6 +79,13 @@ class EventListCtrl
     @scope.data.currentPage == 0
 
   lastPage: =>
-    @scope.data.currentPage == @scope.data.events.length / @scope.data.pageSize - 1
+    @scope.data.currentPage + 1 == @numberOfPages()
+
+  areEvents: =>
+    @scope.data.events?.length > 0
+
+  refreshEvents: =>
+    @scope.data.events = []
+    @scope.data.events = @EventListData.refreshEvents()
 
 paylogicStoreAppControllers.controller 'EventListCtrl', EventListCtrl
