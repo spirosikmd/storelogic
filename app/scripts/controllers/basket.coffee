@@ -1,6 +1,6 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
+app = angular.module 'paylogicStoreApp'
 
 class BasketCtrl
   @$inject = ["$rootScope", "$scope", "currencies", "Basket", "Ticket", "Product", "Cache", "BasketData"]
@@ -70,4 +70,4 @@ class BasketCtrl
   noBasket: =>
     @BasketData.isEmpty()
 
-paylogicStoreAppControllers.controller 'BasketCtrl', BasketCtrl
+app.controller 'BasketCtrl', BasketCtrl

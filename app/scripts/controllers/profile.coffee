@@ -1,6 +1,6 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
+app = angular.module 'paylogicStoreApp'
 
 class ProfileCtrl
   @$inject = ["$scope", "Profile", "Cache"]
@@ -34,4 +34,4 @@ class ProfileCtrl
   noProfile = =>
     not @Cache.get 'profileUri'
 
-paylogicStoreAppControllers.controller 'ProfileCtrl', ProfileCtrl
+app.controller 'ProfileCtrl', ProfileCtrl

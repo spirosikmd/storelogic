@@ -1,6 +1,6 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
+app = angular.module 'paylogicStoreApp'
 
 class EventCtrl
   @$inject = ["$scope", "$routeParams", "currencies", "Cache", "Event", "Product", "Basket", "Ticket", "BasketData"]
@@ -12,7 +12,7 @@ class EventCtrl
     @scope.data.products = []
     @scope.data.units = {}
     @scope.data.basket = @BasketData.getBasket()
-    @scope.data.profileUri = @Cache.get('profileUri')
+    @scope.data.profileUri = @Cache.get 'profileUri'
 
     @Event.get {uri__eq: @routeParams.eventUri}, (resources) =>
       @scope.data.event = resources[0]
@@ -65,7 +65,7 @@ class EventCtrl
     if @scope.data.units
       if @BasketData.isEmpty()
         data = {
-          "profile": @Cache.get('profileUri')
+          "profile": @Cache.get 'profileUri'
         }
         @Basket.create data, (resource) =>
           @BasketData.setBasket resource
@@ -82,4 +82,4 @@ class EventCtrl
   noProfile = =>
     not @scope.data.profileUri
 
-paylogicStoreAppControllers.controller 'EventCtrl', EventCtrl
+app.controller 'EventCtrl', EventCtrl

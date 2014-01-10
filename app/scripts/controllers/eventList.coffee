@@ -1,8 +1,8 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
+app = angular.module 'paylogicStoreApp'
 
-paylogicStoreAppControllers.filter 'startFrom', ->
+app.filter 'startFrom', ->
   (input, start) ->
     start = +start
     input.slice(start)
@@ -14,13 +14,14 @@ class EventListCtrl
     @scope.data = {}
     @scope.data.events = @EventListData.getEvents()
     @scope.data.locations = @Location.get()
-    @scope.data.profileUri = @Cache.get('profileUri')
+    @scope.data.profileUri = @Cache.get 'profileUri'
     @scope.data.currentPage = 0
     @scope.data.pageSize = 5
 
     angular.extend @scope,
       getCity: @getCity
-      getLocation: @getLocation
+      getName: @getName
+      getCountry: @getCountry
       noProfile: @noProfile
       filter: @filter
       decreaseCurrentPage: @decreaseCurrentPage
@@ -32,18 +33,16 @@ class EventListCtrl
       refreshEvents: @refreshEvents
 
   getCity: (locationUri) =>
-    for location in @scope.data.locations
-      if location.uri is locationUri
-        city = location.city.en
-        break
-    city
+    @getLocation(locationUri)[0].city.en
+
+  getName: (locationUri) =>
+    @getLocation(locationUri)[0].name.en
+
+  getCountry: (locationUri) =>
+    @getLocation(locationUri)[0].country
 
   getLocation: (locationUri) =>
-    for location in @scope.data.locations
-      if location.uri is locationUri
-        name = location.name.en
-        break
-    name
+    location for location in @scope.data.locations when location.uri is locationUri
 
   noProfile: =>
     not @scope.data.profileUri
@@ -80,4 +79,4 @@ class EventListCtrl
     @scope.data.events = []
     @scope.data.events = @EventListData.refreshEvents()
 
-paylogicStoreAppControllers.controller 'EventListCtrl', EventListCtrl
+app.controller 'EventListCtrl', EventListCtrl
