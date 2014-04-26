@@ -17,7 +17,7 @@
     </tbody>
   </table>
   <div>
-    Total: {{data.total|amount}}
+    Total<span ng-show="isCompleted()"> (with costs)</span>: {{data.total|amount}}
   </div>
   <button type="button" class="btn btn-success" ng-click="confirmBasket()" ng-hide="isCompleted()" ng-disabled="isCanceled() || noBasket() || areTickets()">Confirm</button>
   <button type="button" class="btn btn-danger" ng-click="cancelBasket()" ng-hide="isCompleted()" ng-disabled="isCanceled() || noBasket()">Cancel</button>

@@ -40,6 +40,7 @@ class BasketCtrl
   confirmBasket: =>
     uid = @scope.data.basket.uri.split('/')[4]
     @Basket.confirm {basketUid:uid}, (resource) =>
+      @scope.data.total = resource.total
       @scope.data.basket.state = resource.state
       @scope.data.etickets = resource.etickets
 

@@ -3,9 +3,9 @@
 app = angular.module 'storelogicApp'
 
 class EventCtrl
-  @$inject = ["$scope", "$routeParams", "currencies", "Cache", "Event", "Product", "Basket", "Ticket", "BasketData", "EventListData"]
+  @$inject = ["$scope", "currencies", "Cache", "Event", "Product", "Basket", "Ticket", "BasketData", "EventListData"]
 
-  constructor: (@scope, @routeParams, @currencies, @Cache, @Event, @Product, @Basket, @Ticket, @BasketData, @EventListData) ->
+  constructor: (@scope, @currencies, @Cache, @Event, @Product, @Basket, @Ticket, @BasketData, @EventListData) ->
     @scope.data = {}
     @scope.data.empty = {}
     @scope.data.currencies = @currencies
@@ -35,7 +35,7 @@ class EventCtrl
       noProfile: @noProfile
 
   refreshAvailability: =>
-    @Product.get {event__eq: @routeParams.eventUri}, (resources) =>
+    @Product.get {event__eq: @EventListData.getActiveEventUri()}, (resources) =>
       @scope.data.products = []
       for resource in resources
         @scope.data.products.push resource
