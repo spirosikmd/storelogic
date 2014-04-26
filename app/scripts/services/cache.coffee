@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp')
+angular.module('storelogicApp')
   .service 'Cache', ($angularCacheFactory) ->
     $angularCacheFactory 'cache', {
       maxAge: 9000000,

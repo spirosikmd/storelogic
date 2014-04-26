@@ -1,4 +1,4 @@
-<div id="basket", ng-controller="BasketCtrl">
+<div id="basket" ng-controller="BasketCtrl">
   <h2>Basket</h2>
   <div>State: {{data.basket.state}}</div>
   <table class="table">
@@ -11,13 +11,13 @@
     <tbody>
       <tr ng-repeat="ticket in data.tickets">
         <td>{{ticket.name.en}}</td>
-        <td>{{ticket.price.amount | currency:currencies[data.total.currency]}} {{ticket.price.currency}}</td>
+        <td>{{ticket.price|amount}}</td>
         <td><button class="btn" ng-click="cancelTicket(ticket.uri)" ng-disabled="isCompleted() || isCanceled()">Cancel</button></td>
       </tr>
     </tbody>
   </table>
   <div>
-    Total: {{data.total.amount | currency:currencies[data.total.currency]}} {{data.total.currency}}
+    Total: {{data.total|amount}}
   </div>
   <button type="button" class="btn btn-success" ng-click="confirmBasket()" ng-hide="isCompleted()" ng-disabled="isCanceled() || noBasket() || areTickets()">Confirm</button>
   <button type="button" class="btn btn-danger" ng-click="cancelBasket()" ng-hide="isCompleted()" ng-disabled="isCanceled() || noBasket()">Cancel</button>

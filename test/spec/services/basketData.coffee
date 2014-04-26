@@ -3,7 +3,7 @@
 describe 'Service: BasketData', () ->
 
   # load the service's module
-  beforeEach module 'paylogicStoreApp'
+  beforeEach module 'storelogicApp'
 
   # instantiate service
   BasketData = {}

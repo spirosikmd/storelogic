@@ -1,5 +1,5 @@
 <div class="hero-unit">
-  <h1>Paylogic Store</h1>
+  <h1>Storelogic</h1>
   <div id="nav">
     <a href="#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
     <a href="/" class="btn">Event List</a>
@@ -26,7 +26,7 @@
               <div>{{product.name.en}}</div>
               <div class="subtitle">{{product.subtitle.en}}</div>
             </td>
-            <td>{{product.price.amount | currency:currencies[product.price.currency]}} {{product.price.currency}}</td>
+            <td>{{product.price|amount}}</td>
             <td>{{product.availability}}</td>
             <td><input type="number" min="0" max="{{product.constraints.max_quantity}}" ng-model="data.units[product.uri]" /></td>
           </tr>

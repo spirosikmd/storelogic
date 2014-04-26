@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular.module 'paylogicStoreApp'
+app = angular.module 'storelogicApp'
 
 class BasketCtrl
   @$inject = ["$rootScope", "$scope", "currencies", "Basket", "Ticket", "Product", "Cache", "BasketData"]

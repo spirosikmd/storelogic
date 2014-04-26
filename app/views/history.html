@@ -1,12 +1,12 @@
 <div class="hero-unit">
-  <h1>Paylogic Store</h1>
+  <h1>Storelogic</h1>
   <div id="nav">
     <a href="#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
     <a href="/" class="btn">Event List</a>
   </div>
   <div id="history">
     <h2>History</h2>
-    <table class="table">
+    <table class="table" ng-hide="noHistory()">
       <thead>
         <tr>
           <th>Basket</th>
@@ -18,10 +18,13 @@
         <tr ng-repeat="basket in data.baskets">
           <td>{{basket.name}}</td>
           <td>{{basket.state}}</td>
-          <td>{{basket.total.amount | currency:currencies[basket.total.currency]}} {{basket.total.currency}}</td>
+          <td>{{basket.total|amount}}</td>
           <td><a class="btn btn-primary" ng-href="{{basket.eticketsLink}}" ng-show="linkExists(basket.eticketsLink)">Download eTickets!</a></td>
         </tr>
       </tbody>
     </table>
+    <div ng-show="noHistory()">
+      You have not bought any tickets yet!
+    </div>
   </div>
 </div>

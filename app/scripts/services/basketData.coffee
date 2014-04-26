@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp')
+angular.module('storelogicApp')
   .service 'BasketData', ($rootScope, Cache, Basket, Ticket, Product) ->
 
     basket = {}
@@ -64,9 +64,9 @@ angular.module('paylogicStoreApp')
         tickets
 
       setBasket: (resource) ->
-          basket = resource
-          Cache.put 'basketUri', basket.uri
-          $rootScope.$broadcast 'basketChanged', basket
+        basket = resource
+        Cache.put 'basketUri', basket.uri
+        $rootScope.$broadcast 'basketChanged', basket
 
       getBasket: ->
         basket

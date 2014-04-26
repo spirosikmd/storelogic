@@ -1,16 +1,16 @@
 'use strict'
 
-paylogicStoreAppControllers = angular.module 'paylogicStoreApp'
+app = angular.module 'storelogicApp'
 
 class RegisterCtrl
-  @$inject = ["$scope", "Profile", "Cache"]
+  @$inject = ["$scope", "Profile", "Cache", "countries"]
 
-  constructor: (@scope, @Profile, @Cache) ->
+  constructor: (@scope, @Profile, @Cache, @countries) ->
     @scope.data = {}
     @scope.data.empty = {}
     @scope.data.formats = ["dd-MMMM-yyyy", "yyyy/MM/dd", "shortDate"]
     @scope.data.format = @scope.data.formats[0]
-    @scope.data.countries = ["NL", "US"]
+    @scope.data.countries = @countries
 
     angular.extend @scope,
       create: @create
@@ -29,4 +29,4 @@ class RegisterCtrl
   reset: =>
     @scope.data.user = angular.copy @scope.data.empty
 
-paylogicStoreAppControllers.controller 'RegisterCtrl', RegisterCtrl
+app.controller 'RegisterCtrl', RegisterCtrl

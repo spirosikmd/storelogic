@@ -28,3 +28,21 @@ body {
 #nav {
     padding-top: 15px;
 }
+
+.clickable {
+    cursor: pointer;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.event-start, .event-end {
+    font-size: 12px;
+}
+
+.additional-info {
+    margin: 5px;
+}

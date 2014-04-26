@@ -1,22 +1,22 @@
 'use strict'
 
-app = angular.module 'paylogicStoreApp'
+app = angular.module 'storelogicApp'
 
 class ProfileCtrl
-  @$inject = ["$scope", "Profile", "Cache"]
+  @$inject = ['$scope', 'Profile', 'Cache', 'countries']
 
-  constructor: (@scope, @Profile, @Cache) ->
+  constructor: (@scope, @Profile, @Cache, @countries) ->
     @scope.data = {}
     @scope.data.profileUri = @Cache.get 'profileUri'
     @scope.data.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate']
     @scope.data.format = @scope.data.formats[0]
-    @scope.data.countries = ["NL", "US"]
+    @scope.data.countries = @countries
 
     @Profile.get {uri__eq: @scope.data.profileUri}, (resource) =>
       @scope.data.profile = resource[0]
       @scope.data.profile.gender = switch
-        when @scope.data.profile.gender is 1 then "male"
-        when @scope.data.profile.gender is 2 then "female"
+        when @scope.data.profile.gender is 1 then 'male'
+        when @scope.data.profile.gender is 2 then 'female'
 
     angular.extend @scope,
       update: @update
@@ -24,8 +24,8 @@ class ProfileCtrl
 
   update: (profile) =>
     profile.gender = switch
-      when profile.gender is "male" then 1
-      when profile.gender is "female" then 2
+      when profile.gender is 'male' then 1
+      when profile.gender is 'female' then 2
     uid = @scope.data.profileUri.split('/')[4]
     revision = @scope.data.profileUri.split('/')[6]
     @Profile.update {profileUid:uid, profileRevision:revision}, profile, (response) =>

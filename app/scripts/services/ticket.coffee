@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp')
+angular.module('storelogicApp')
   .factory 'Ticket', ($resource, apiToken, baseUrl) ->
     $resource baseUrl + 'tickets/:ticketUid', {ticketUid:"@id"}, {
       get: {

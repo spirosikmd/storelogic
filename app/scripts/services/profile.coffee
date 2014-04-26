@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp')
+angular.module('storelogicApp')
   .factory 'Profile', ($resource, apiToken, baseUrl) ->
     $resource baseUrl + 'profiles', {}, {
       get: {

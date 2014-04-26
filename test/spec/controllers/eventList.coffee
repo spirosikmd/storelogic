@@ -3,7 +3,7 @@
 describe 'Controller: EventListCtrl', () ->
 
   # load the controller's module
-  beforeEach module 'paylogicStoreApp'
+  beforeEach module 'storelogicApp'
 
   EventListCtrl = {}
   scope = {}
@@ -20,6 +20,7 @@ describe 'Controller: EventListCtrl', () ->
     scope = $rootScope.$new()
     EventListCtrl = $controller
     $q = _$q_
+    eventListData = EventListData
 
   beforeEach ->
     eventListData.getEvents = jasmine.createSpy('events')

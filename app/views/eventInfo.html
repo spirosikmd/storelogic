@@ -1,0 +1,11 @@
+<div class="event-info">
+  <div class="event-info-content">
+    <div class="event-title" ng-transclude>
+      <span class="clickable"><i class="icon-info-sign"></i></span>
+    </div>
+    <div class="additional-info" ng-show="open">
+      <div class="event-start">Event starts on {{startDate | date:"yyyy/MM/dd"}} at {{startDate | date:"hh:mm"}}</div>
+      <div class="event-end">Event ends on {{endDate | date:"yyyy/MM/dd"}} at {{endDate | date:"hh:mm"}}</div>
+    </div>
+  </div>
+</div>

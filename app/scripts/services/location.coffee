@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('paylogicStoreApp')
+angular.module('storelogicApp')
   .factory 'Location', ($resource, apiToken, baseUrl) ->
     $resource baseUrl + 'locations', {}, {
       get: {

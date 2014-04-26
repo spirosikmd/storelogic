@@ -1,5 +1,5 @@
 <div class="hero-unit">
-  <h1>Paylogic Store</h1>
+  <h1>Storelogic</h1>
   <div id="nav">
     <a href="/#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
     <a href="/#/register/" class="btn">Register</a>
@@ -12,7 +12,7 @@
     <div id="data">
       <button class="btn" ng-click="refreshEvents()">Refresh</button>
       Search: <input type="text" ng-model="data.eventName" ng-trim ng-change="filter()" />
-      <table class="table" ng-show="areEvents()">
+      <table class="table table-hover" ng-show="areEvents()">
         <thead>
           <tr>
             <th>Name</th>
@@ -24,7 +24,11 @@
         </thead>
         <tbody>
           <tr ng-repeat="event in data.events | startFrom:data.currentPage*data.pageSize | limitTo:data.pageSize">
-            <td><a ng-href="#/event/?eventUri={{event.uri}}">{{event.title.en}}</div></td>
+            <td>
+              <event-info start-date="event.event_start" end-date="event.event_end">
+                <span class="clickable event-title" ng-click="goToEvent(event.uri)">{{event.title.en}}</span>
+              </event-info>
+            </td>
             <td><span ng-repeat="genre in event.genres">{{genre}}</span></td>
             <td>{{getCity(event.location)}}</td>
             <td>{{getName(event.location)}}</td>
@@ -39,4 +43,5 @@
       <button class="btn" ng-disabled="lastPage()" ng-click="increaseCurrentPage()">Next</button>
     </div>
   </div>
+  <div copyright class="copyright"></div>
 </div>

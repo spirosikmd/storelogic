@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular.module 'paylogicStoreApp'
+app = angular.module 'storelogicApp'
 
 app.filter 'startFrom', ->
   (input, start) ->
@@ -8,9 +8,9 @@ app.filter 'startFrom', ->
     input.slice(start)
 
 class EventListCtrl
-  @$inject: ['$scope', 'Event', 'Location', 'Cache', 'EventListData']
+  @$inject: ['$scope', '$window', 'Event', 'Location', 'Cache', 'EventListData']
 
-  constructor: (@scope, @Event, @Location, @Cache, @EventListData) ->
+  constructor: (@scope, @window, @Event, @Location, @Cache, @EventListData) ->
     @scope.data = {}
     @scope.data.events = @EventListData.getEvents()
     @scope.data.locations = @Location.get()
@@ -31,15 +31,20 @@ class EventListCtrl
       numberOfPages: @numberOfPages
       areEvents: @areEvents
       refreshEvents: @refreshEvents
+      goToEvent: @goToEvent
+
+  goToEvent: (eventUri) =>
+    @EventListData.setActiveEventUri eventUri
+    @window.location = '#/event'
 
   getCity: (locationUri) =>
-    @getLocation(locationUri)[0].city.en
+    @getLocation(locationUri)[0]?.city.en
 
   getName: (locationUri) =>
-    @getLocation(locationUri)[0].name.en
+    @getLocation(locationUri)[0]?.name.en
 
   getCountry: (locationUri) =>
-    @getLocation(locationUri)[0].country
+    @getLocation(locationUri)[0]?.country
 
   getLocation: (locationUri) =>
     location for location in @scope.data.locations when location.uri is locationUri

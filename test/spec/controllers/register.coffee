@@ -3,7 +3,7 @@
 describe 'Controller: RegisterCtrl', () ->
 
   # load the controller's module
-  beforeEach module 'paylogicStoreApp'
+  beforeEach module 'storelogicApp'
 
   RegisterCtrl = {}
   scope = {}
@@ -15,5 +15,5 @@ describe 'Controller: RegisterCtrl', () ->
       $scope: scope
     }
 
-  it 'should attach a list of date format to the scope', () ->
-    expect(scope.data.formats.length).toBe 3
+  it 'should set a list of countries', () ->
+    expect(scope.data.countries).toEqual ['NL', 'US']

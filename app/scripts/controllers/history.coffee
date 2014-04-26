@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular.module('paylogicStoreApp')
+app = angular.module 'storelogicApp'
 
 class HistoryCtrl
   @$inject = ["$scope", "currencies", "Cache", "Basket", "Ticket"]
@@ -13,13 +13,15 @@ class HistoryCtrl
 
     angular.extend @scope,
       init: @init
+      noHistory: @noHistory
       linkExists: @linkExists
+      noProfile: @noProfile
 
     @scope.init()
 
   init: =>
     if @scope.data.profileUri
-      basketCounter = 0
+      basketCounter = 1
       @Basket.get {profile__eq: @scope.data.profileUri}, (resources) =>
         for resource in resources
           basket =
@@ -32,7 +34,11 @@ class HistoryCtrl
   linkExists: (link) ->
     link
 
-  noProfile = =>
+  noHistory: =>
+    angular.equals @scope.data.baskets, []
+
+  noProfile: =>
     not @scope.data.profileUri
+
 
 app.controller 'HistoryCtrl', HistoryCtrl

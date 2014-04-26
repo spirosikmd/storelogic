@@ -1,11 +1,11 @@
 'use strict'
 
-app = angular.module 'paylogicStoreApp'
+app = angular.module 'storelogicApp'
 
 class EventCtrl
-  @$inject = ["$scope", "$routeParams", "currencies", "Cache", "Event", "Product", "Basket", "Ticket", "BasketData"]
+  @$inject = ["$scope", "$routeParams", "currencies", "Cache", "Event", "Product", "Basket", "Ticket", "BasketData", "EventListData"]
 
-  constructor: (@scope, @routeParams, @currencies, @Cache, @Event, @Product, @Basket, @Ticket, @BasketData) ->
+  constructor: (@scope, @routeParams, @currencies, @Cache, @Event, @Product, @Basket, @Ticket, @BasketData, @EventListData) ->
     @scope.data = {}
     @scope.data.empty = {}
     @scope.data.currencies = @currencies
@@ -14,10 +14,10 @@ class EventCtrl
     @scope.data.basket = @BasketData.getBasket()
     @scope.data.profileUri = @Cache.get 'profileUri'
 
-    @Event.get {uri__eq: @routeParams.eventUri}, (resources) =>
+    @Event.get {uri__eq: @EventListData.getActiveEventUri()}, (resources) =>
       @scope.data.event = resources[0]
 
-    @Product.get {event__eq: @routeParams.eventUri}, (resources) =>
+    @Product.get {event__eq: @EventListData.getActiveEventUri()}, (resources) =>
       for resource in resources
         @scope.data.products.push resource
 
