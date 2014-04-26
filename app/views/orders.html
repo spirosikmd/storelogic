@@ -1,0 +1,30 @@
+<div class="hero-unit">
+  <h1>Storelogic</h1>
+  <div id="nav">
+    <a href="#/profile/" ng-hide="noProfile()" class="btn">Profile</a>
+    <a href="/" class="btn">Event List</a>
+  </div>
+  <div id="orders">
+    <h2>Orders</h2>
+    <table class="table" ng-hide="noOrders()">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>State</th>
+          <th>Total (with costs)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="order in data.orders">
+          <td>{{order.id}}</td>
+          <td>{{order.state}}</td>
+          <td>{{order.total|amount}}</td>
+          <td><a class="btn btn-primary" ng-href="{{order.eticketsLink}}" ng-show="linkExists(order.eticketsLink)">Download eTickets!</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div ng-show="noOrders()">
+      You have not bought any tickets yet!
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: HistoryCtrl', () ->
+describe 'Controller: OrdersCtrl', () ->
 
   # load the controller's module
   beforeEach module 'storelogicApp'
@@ -11,7 +11,7 @@ describe 'Controller: HistoryCtrl', () ->
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    EticketsCtrl = $controller 'HistoryCtrl', {
+    EticketsCtrl = $controller 'OrdersCtrl', {
       $scope: scope
     }
 

@@ -22,8 +22,8 @@ app.config ($routeProvider) ->
     .when '/register/',
       templateUrl: 'views/register.html'
       controller: 'RegisterCtrl'
-    .when '/history/',
-      templateUrl: 'views/history.html'
-      controller: 'HistoryCtrl'
+    .when '/orders/',
+      templateUrl: 'views/orders.html'
+      controller: 'OrdersCtrl'
     .otherwise
       redirectTo: '/'

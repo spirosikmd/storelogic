@@ -2,18 +2,18 @@
 
 app = angular.module 'storelogicApp'
 
-class HistoryCtrl
-  @$inject = ["$scope", "currencies", "Cache", "Basket", "Ticket"]
+class OrdersCtrl
+  @$inject = ["$scope", "currencies", "Cache", "Basket", "Ticket", "Utils"]
 
-  constructor: (@scope, @currencies, @Cache, @Basket, @Ticket) ->
+  constructor: (@scope, @currencies, @Cache, @Basket, @Ticket, @Utils) ->
     @scope.data = {}
     @scope.data.profileUri = @Cache.get 'profileUri'
     @scope.data.eTicketLinks = []
-    @scope.data.baskets = []
+    @scope.data.orders = []
 
     angular.extend @scope,
       init: @init
-      noHistory: @noHistory
+      noOrders: @noOrders
       linkExists: @linkExists
       noProfile: @noProfile
 
@@ -21,24 +21,23 @@ class HistoryCtrl
 
   init: =>
     if @scope.data.profileUri
-      basketCounter = 1
       @Basket.get {profile__eq: @scope.data.profileUri}, (resources) =>
         for resource in resources
-          basket =
-            name: "Basket " + basketCounter++
+          order =
+            id: @Utils.uniqueId()
             total: resource.total
             state: resource.state
             eticketsLink: resource.etickets
-          @scope.data.baskets.push basket
+          @scope.data.orders.push order
 
   linkExists: (link) ->
     link
 
-  noHistory: =>
-    angular.equals @scope.data.baskets, []
+  noOrders: =>
+    angular.equals @scope.data.orders, []
 
   noProfile: =>
     not @scope.data.profileUri
 
 
-app.controller 'HistoryCtrl', HistoryCtrl
+app.controller 'OrdersCtrl', OrdersCtrl
