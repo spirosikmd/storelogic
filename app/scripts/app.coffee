@@ -5,6 +5,7 @@ app = angular.module('storelogicApp', [
   'ngResource',
   'ngSanitize',
   'ui.bootstrap',
+  'base64',
   'jmdobry.angular-cache'
 ])
 
